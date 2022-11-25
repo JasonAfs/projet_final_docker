@@ -4,7 +4,7 @@
 /app1/public/storage
 /app1/storage/*.key
 /app1/vendor
-/app1/.env
+
 /app1/.env.backup
 /app1/.phpunit.result.cache
 /app1/Homestead.json
@@ -21,7 +21,7 @@
 /app2/public/storage
 /app2/storage/*.key
 /app2/vendor
-/app2/.env
+
 /app2/.env.backup
 /app2/.phpunit.result.cache
 /app2/Homestead.json
