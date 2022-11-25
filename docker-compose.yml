@@ -3,7 +3,7 @@ services:
   #app1
   php1:
     build:
-      context: .
+      context: ./app1
       dockerfile: Dockerfile
     volumes:
       - ./app1:/var/www/html
@@ -13,7 +13,7 @@ services:
 
   php2:
     build:
-      context: .
+      context: ./app2
       dockerfile: Dockerfile
     volumes:
       - ./app2:/var/www/html
