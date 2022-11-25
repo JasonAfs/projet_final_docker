@@ -1,0 +1,92 @@
+version : '3'
+services:
+  #app1
+  php1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./app1:/var/www/html
+    networks:
+      - mynet
+
+
+  php2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./app2:/var/www/html
+    networks:
+      - mynet
+      
+  #Nginx
+  nginx:
+    image: nginx:alpine
+    container_name: nginxLaravel
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "8080:80"
+    volumes:
+      - ./app1:/var/www/html
+      - ./app1/nginx/conf.d/:/etc/nginx/conf.d/
+      
+    networks:
+      - mynet
+  
+  nginx2:
+    image: nginx:alpine
+    container_name: nginxLaravel2
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "8081:80"
+    volumes:
+      - ./app2:/var/www/html
+      - ./app2/nginx/conf.d/:/etc/nginx/conf.d/
+      
+    networks:
+      - mynet
+  #Mysql
+  db:
+    image: mysql:5.7
+    container_name: dbLaravel
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: laraveldb
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: laravelpassworddb
+      MYSQL_ROOT_PASSWORD: rootpasswordmysql
+    volumes:
+      - mysqldata:/var/lib/mysql/
+    networks:
+      - mynet
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: example-app-phpmyadmin
+    restart: unless-stopped
+    tty: true
+    depends_on:
+      - db
+    ports:
+      - 8088:80
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: laravelpassworddb
+      UPLOAD_LIMIT: 300M
+    networks:
+      - mynet
+
+#networks
+networks:
+  mynet:
+    driver: bridge
+#volume
+volumes:
+  mysqldata:
+    driver: local
