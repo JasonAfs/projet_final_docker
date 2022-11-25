@@ -10,7 +10,7 @@ services:
     networks:
       - mynet
 
-
+  #app2
   php2:
     build:
       context: ./app2
@@ -34,7 +34,7 @@ services:
       
     networks:
       - mynet
-  
+  #Nginx 2
   nginx2:
     image: nginx:alpine
     container_name: nginxLaravel2
